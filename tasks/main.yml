@@ -1,0 +1,28 @@
+---
+- name: Checkout rbenv
+  git: >
+    repo=https://github.com/sstephenson/rbenv.git
+    dest={{ rbenv_install_path }}
+    version={{ rbenv_version.rbenv }}
+
+- name: Checkout ruby-build
+  git: >
+    repo=https://github.com/sstephenson/ruby-build.git
+    dest={{ rbenv_install_path }}/plugins/ruby-build
+    version={{ rbenv_version.ruby_build }}
+  
+- name: Add rbenv initialization to profile
+  template: >
+    src=rbenv.sh.j2
+    dest=/etc/profile.d/rbenv.sh
+    mode=0755
+
+- name: Install ruby
+  command: bash -lc "rbenv install {{ rbenv_version.ruby }}"
+  args:
+    creates: "{{ rbenv_install_path }}/versions/{{ rbenv_version.ruby }}/bin/ruby"
+
+- name: Set ruby version
+  command: bash -lc "rbenv global {{ rbenv_version.ruby }}"
+  args:
+    creates: "{{ rbenv_install_path }}/version"

@@ -1,0 +1,7 @@
+---
+rbenv_install_path: /usr/local/rbenv
+
+rbenv_version:
+ rbenv: v0.4.0
+ ruby_build: v20150928
+ ruby: 2.2.3
